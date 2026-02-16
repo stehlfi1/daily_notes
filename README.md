@@ -1,11 +1,11 @@
 # Daily Primer
 
-A browser extension that shows your Obsidian daily note every time you open a new tab. If you try to open YouTube, Reddit, Twitter, or Instagram, it makes you stare at your plan for 40 seconds first.
+Anti-procrastination tool. A browser extension that shows your Obsidian daily note every time you open a new tab. If you try to open YouTube, Reddit, Twitter, or Instagram, it makes you stare at your plan first.
 
 ## What it does
 
-- **New tab** shows today's daily note. First open of the day has a 40s timer.
-- **Blacklisted sites** get intercepted. You see your note with a 40s countdown. After that you can proceed.
+- **New tab** shows today's daily note. First open of the day has a configurable timer.
+- **Blacklisted sites** get intercepted. You see your note with a countdown. After that you can proceed.
 - Reads your Obsidian vault directly. No cloud, no sync, no server.
 
 ## Setup
