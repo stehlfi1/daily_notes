@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Daily Primer — Settings</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div id="app">
+    <h1>Daily Primer Settings</h1>
+
+    <section>
+      <h2>Obsidian Vault</h2>
+      <label>
+        Vault path (absolute path to your vault folder)
+        <input type="text" id="vault-path" placeholder="/Users/you/my-vault" />
+      </label>
+    </section>
+
+    <section>
+      <h2>Daily Notes</h2>
+      <label>
+        Subfolder path (relative to vault root)
+        <input type="text" id="subfolder" value="daily-notes" />
+      </label>
+      <label>
+        Date format (for filename)
+        <input type="text" id="date-format" value="YYYY-MM-DD" />
+      </label>
+    </section>
+
+    <section>
+      <h2>Timer</h2>
+      <label>
+        New tab delay (seconds, first open of the day)
+        <input type="number" id="newtab-delay" value="40" min="0" max="300" />
+      </label>
+      <label>
+        Blocked site delay (seconds, every time)
+        <input type="number" id="blocked-delay" value="40" min="5" max="300" />
+      </label>
+    </section>
+
+    <section>
+      <h2>Blacklisted Sites</h2>
+      <p>One domain per line. These sites will show the primer with an enforced delay.</p>
+      <textarea id="blacklist" rows="8">youtube.com
+twitter.com
+x.com
+reddit.com
+instagram.com</textarea>
+    </section>
+
+    <button id="save">Save Settings</button>
+    <p id="save-status" class="hidden">Settings saved.</p>
+
+    <section class="info">
+      <h2>First-time setup</h2>
+      <ol>
+        <li>Run <code class="inline">./install.sh</code> from the project root</li>
+        <li>Restart your browser</li>
+      </ol>
+    </section>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

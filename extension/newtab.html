@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Daily Primer</title>
+  <link rel="stylesheet" href="newtab.css">
+</head>
+<body>
+  <div id="setup-prompt" class="hidden">
+    <h1>Daily Primer</h1>
+    <p>Set your vault path in settings to get started.</p>
+    <button id="open-options">Open Settings</button>
+  </div>
+
+  <div id="primer" class="hidden">
+    <div id="block-bar" class="hidden">
+      <span>You were heading to <strong id="blocked-domain"></strong></span>
+    </div>
+
+    <header>
+      <time id="current-date"></time>
+    </header>
+
+    <main id="note-content"></main>
+
+    <div id="no-note" class="hidden">
+      <p>No daily note found for today.</p>
+      <p class="hint">Open Obsidian and create today's daily note, then refresh this page.</p>
+    </div>
+
+    <footer id="actions" class="hidden">
+      <button id="proceed-btn">Proceed to <span id="proceed-domain"></span></button>
+    </footer>
+  </div>
+
+  <div id="interaction-blocker" class="hidden"></div>
+  <div id="timer-overlay" class="hidden">
+    <svg id="timer-ring" viewBox="0 0 120 120">
+      <circle class="ring-bg" cx="60" cy="60" r="52" />
+      <circle class="ring-progress" cx="60" cy="60" r="52" />
+    </svg>
+    <span id="timer-count"></span>
+  </div>
+
+  <script src="lib/marked.min.js"></script>
+  <script src="newtab.js"></script>
+</body>
+</html>

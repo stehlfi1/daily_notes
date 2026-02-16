@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Daily Primer",
+  "version": "1.0.0",
+  "description": "Shows your Obsidian daily note on new tabs and enforces delays on distracting sites.",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyIAQ5kKMrMgQoAKOj3ecB6t9x7CTiNF71+5YHPdO51TJZw60+1uKcIv2eIaDIYJ66xWz84BK2CdWsuiK5XDHV82zSWu7qKuA9ztQQm+mztU5+tR7fi14NUcJsJG0fLTG9PbVfPSnNwgy8pFOyBy8/Y8vEtImpRbEG9zLQzuFljbCzYwtFf51yYzPl/+NjqqMIp8QLnPLTt89ImSTzWx4RYK8uIGS23n1EqyyieyTDcB/oJ8/3jcuDukwtQM6L1RuzlCaujlXsWp0B6/n8dSls0mpZzuuUevSkGzetLuB7B7IYlNPQnC0sy4MN6eu72ficpkYfxegWqMJvqDRVblS0wIDAQAB",
+  "permissions": [
+    "storage",
+    "nativeMessaging",
+    "webNavigation"
+  ],
+  "chrome_url_overrides": {
+    "newtab": "newtab.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "options_page": "options.html",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  }
+}

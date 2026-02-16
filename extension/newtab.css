@@ -1,0 +1,280 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #1a1a1a;
+  color: #e0e0e0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  min-height: 100vh;
+}
+
+/* Setup prompt */
+#setup-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: 1rem;
+  text-align: center;
+}
+
+#setup-prompt h1 {
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+
+#setup-prompt button {
+  padding: 0.6rem 1.2rem;
+  background: #333;
+  border: 1px solid #555;
+  border-radius: 4px;
+  color: #e0e0e0;
+  cursor: pointer;
+  font-size: 0.95rem;
+}
+
+#setup-prompt button:hover {
+  background: #444;
+}
+
+.hint {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+/* Block bar */
+#block-bar {
+  background: #2a1a1a;
+  border-bottom: 1px solid #442222;
+  padding: 0.5rem 1rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #cc8888;
+}
+
+#block-bar strong {
+  color: #ee9999;
+}
+
+/* Primer content */
+#primer {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+  padding: 2rem 2rem 0;
+  max-width: 700px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+#current-date {
+  font-size: 0.85rem;
+  color: #666;
+  font-family: "SF Mono", "Fira Code", monospace;
+}
+
+main#note-content {
+  flex: 1;
+  max-width: 700px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 1rem 2rem 2rem;
+  font-family: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+/* Markdown content styles */
+#note-content h1 {
+  font-size: 1.3rem;
+  font-weight: 500;
+  margin: 0.5rem 0 1rem;
+  color: #f0f0f0;
+}
+
+#note-content h2 {
+  font-size: 1.05rem;
+  font-weight: 500;
+  margin: 1.5rem 0 0.5rem;
+  color: #ccc;
+  border-bottom: 1px solid #333;
+  padding-bottom: 0.25rem;
+}
+
+#note-content h3 {
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin: 1rem 0 0.4rem;
+  color: #bbb;
+}
+
+#note-content p {
+  margin-bottom: 0.5rem;
+}
+
+#note-content ul, #note-content ol {
+  padding-left: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+#note-content li {
+  margin-bottom: 0.25rem;
+}
+
+#note-content blockquote {
+  border-left: 2px solid #555;
+  padding-left: 0.75rem;
+  color: #999;
+  margin: 0.5rem 0;
+}
+
+#note-content code {
+  background: #2a2a2a;
+  padding: 0.15rem 0.35rem;
+  border-radius: 3px;
+  font-size: 0.85em;
+}
+
+#note-content hr {
+  border: none;
+  border-top: 1px solid #333;
+  margin: 1rem 0;
+}
+
+/* Checkbox styling */
+#note-content .task-item {
+  list-style: none;
+  margin-left: -1.5rem;
+  padding-left: 0;
+}
+
+#note-content .task-item input[type="checkbox"] {
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border: 1px solid #666;
+  border-radius: 2px;
+  background: transparent;
+  vertical-align: middle;
+  margin-right: 0.5rem;
+  position: relative;
+}
+
+#note-content .task-item input[type="checkbox"]:checked {
+  background: #555;
+  border-color: #888;
+}
+
+#note-content .task-item input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  top: -2px;
+  left: 1px;
+  font-size: 12px;
+  color: #ccc;
+}
+
+/* No note message */
+#no-note {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: 0.5rem;
+  text-align: center;
+  color: #888;
+}
+
+/* Footer / proceed button */
+footer#actions {
+  padding: 1.5rem 2rem;
+  text-align: center;
+}
+
+#proceed-btn {
+  padding: 0.6rem 1.5rem;
+  background: #2a2a2a;
+  border: 1px solid #555;
+  border-radius: 4px;
+  color: #e0e0e0;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.15s;
+}
+
+#proceed-btn:hover {
+  background: #3a3a3a;
+}
+
+/* Timer — fixed in top-right, content stays fully visible */
+#timer-overlay {
+  position: fixed;
+  top: var(--timer-top, 1.5rem);
+  right: 1.5rem;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+#timer-overlay.hidden {
+  display: none;
+}
+
+/* Interaction blocker — transparent, covers page during timer */
+#interaction-blocker {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  cursor: not-allowed;
+}
+
+#interaction-blocker.hidden {
+  display: none;
+}
+
+#timer-ring {
+  width: 80px;
+  height: 80px;
+  position: absolute;
+}
+
+.ring-bg {
+  fill: none;
+  stroke: #333;
+  stroke-width: 4;
+}
+
+.ring-progress {
+  fill: none;
+  stroke: #888;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 326.73;
+  stroke-dashoffset: 0;
+  transform: rotate(-90deg);
+  transform-origin: center;
+  transition: stroke-dashoffset 1s linear;
+}
+
+#timer-count {
+  font-size: 1.4rem;
+  font-weight: 300;
+  color: #ccc;
+  font-family: "SF Mono", "Fira Code", monospace;
+  z-index: 1;
+}
+
+.hidden {
+  display: none !important;
+}
