@@ -64,9 +64,8 @@ chrome.webNavigation.onBeforeNavigate.addListener(async (details) => {
   const settings = result.settings || DEFAULT_SETTINGS;
 
   if (domainMatches(details.url, settings.blacklist)) {
-    const domain = new URL(details.url).hostname.replace(/^www\./, '');
     const primerUrl = chrome.runtime.getURL(
-      `newtab.html?blocked=true&domain=${encodeURIComponent(domain)}`
+      `newtab.html?blocked=true&url=${encodeURIComponent(details.url)}`
     );
     chrome.tabs.update(details.tabId, { url: primerUrl });
   }
@@ -94,12 +93,39 @@ function readFileNative(filePath) {
   });
 }
 
+function listFilesNative(dirPath) {
+  return new Promise((resolve, reject) => {
+    const port = chrome.runtime.connectNative(HOST_NAME);
+    port.onMessage.addListener((response) => {
+      port.disconnect();
+      if (response.success) {
+        resolve(response.files);
+      } else {
+        reject(new Error(response.error));
+      }
+    });
+    port.onDisconnect.addListener(() => {
+      if (chrome.runtime.lastError) {
+        reject(new Error(chrome.runtime.lastError.message));
+      }
+    });
+    port.postMessage({ type: 'list_files', path: dirPath });
+  });
+}
+
 // --- Message handler ---
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === 'READ_NOTE') {
     readFileNative(message.path)
       .then(content => sendResponse({ success: true, content }))
+      .catch(err => sendResponse({ success: false, error: err.message }));
+    return true;
+  }
+
+  if (message.type === 'LIST_FILES') {
+    listFilesNative(message.path)
+      .then(files => sendResponse({ success: true, files }))
       .catch(err => sendResponse({ success: false, error: err.message }));
     return true;
   }

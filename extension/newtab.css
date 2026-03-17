@@ -193,6 +193,16 @@ main#note-content {
   color: #888;
 }
 
+#older-note-banner {
+  max-width: 700px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0.5rem 2rem;
+  font-size: 0.8rem;
+  color: #999;
+  font-style: italic;
+}
+
 /* Footer / proceed button */
 footer#actions {
   padding: 1.5rem 2rem;

@@ -60,6 +60,26 @@ async function readDailyNote(settings) {
   }
 }
 
+async function findLatestNote(settings) {
+  if (!settings.vaultPath) return null;
+  const subfolder = settings.subfolder || 'daily-notes';
+  const dirPath = `${settings.vaultPath}/${subfolder}`;
+  try {
+    const response = await chrome.runtime.sendMessage({ type: 'LIST_FILES', path: dirPath });
+    if (!response || !response.success || !response.files || response.files.length === 0) return null;
+    const sorted = response.files.sort().reverse();
+    const latestFilename = sorted[0];
+    const latestPath = `${dirPath}/${latestFilename}`;
+    const readResponse = await chrome.runtime.sendMessage({ type: 'READ_NOTE', path: latestPath });
+    if (readResponse && readResponse.success) {
+      return { content: readResponse.content, filename: latestFilename };
+    }
+    return null;
+  } catch (e) {
+    return null;
+  }
+}
+
 // --- Markdown rendering ---
 
 function renderMarkdown(md) {
@@ -128,9 +148,9 @@ function startTimer(duration, onComplete) {
 
 // --- Blocked mode: proceed ---
 
-async function proceedToSite(domain) {
+async function proceedToSite(url, domain) {
   await chrome.runtime.sendMessage({ type: 'ALLOW_SITE', domain });
-  window.location.href = `https://${domain}`;
+  window.location.href = url;
 }
 
 // --- Setup prompt ---
@@ -148,7 +168,9 @@ function showSetup() {
 async function init() {
   const params = new URLSearchParams(window.location.search);
   const isBlocked = params.get('blocked') === 'true';
-  const blockedDomain = params.get('domain') || '';
+  const blockedUrl = params.get('url') || '';
+  let blockedDomain = '';
+  try { blockedDomain = new URL(blockedUrl).hostname.replace(/^www\./, ''); } catch {};
 
   const settings = await loadSettings();
 
@@ -171,9 +193,24 @@ async function init() {
   }
 
   // Read and render note
-  const noteContent = await readDailyNote(settings);
+  let noteContent = await readDailyNote(settings);
+  let olderNoteFilename = null;
+
+  if (!noteContent) {
+    const latest = await findLatestNote(settings);
+    if (latest) {
+      noteContent = latest.content;
+      olderNoteFilename = latest.filename;
+    }
+  }
 
   if (noteContent) {
+    if (olderNoteFilename) {
+      const banner = document.createElement('div');
+      banner.id = 'older-note-banner';
+      banner.textContent = `No note for today — showing ${olderNoteFilename.replace('.md', '')}`;
+      document.getElementById('note-content').before(banner);
+    }
     document.getElementById('note-content').innerHTML = renderMarkdown(noteContent);
   } else {
     document.getElementById('no-note').classList.remove('hidden');
@@ -218,7 +255,7 @@ async function init() {
 
   // Proceed button handler
   document.getElementById('proceed-btn').addEventListener('click', () => {
-    proceedToSite(blockedDomain);
+    proceedToSite(blockedUrl, blockedDomain);
   });
 }
 

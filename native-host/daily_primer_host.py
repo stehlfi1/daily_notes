@@ -39,6 +39,15 @@ def main():
             send_message({'success': False, 'error': 'not_found'})
         except Exception as e:
             send_message({'success': False, 'error': str(e)})
+    elif msg.get('type') == 'list_files':
+        directory = os.path.expanduser(msg.get('path', ''))
+        try:
+            files = [f for f in os.listdir(directory) if f.endswith('.md')]
+            send_message({'success': True, 'files': files})
+        except FileNotFoundError:
+            send_message({'success': False, 'error': 'not_found'})
+        except Exception as e:
+            send_message({'success': False, 'error': str(e)})
     else:
         send_message({'success': False, 'error': 'unknown_type'})
 
